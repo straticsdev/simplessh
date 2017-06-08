@@ -83,8 +83,9 @@ func connect(username, host string, authMethod ssh.AuthMethod, timeout time.Dura
 	}
 
 	config := &ssh.ClientConfig{
-		User: username,
-		Auth: []ssh.AuthMethod{authMethod},
+		User:            username,
+		Auth:            []ssh.AuthMethod{authMethod},
+		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
 	}
 
 	host = addPortToHost(host)
