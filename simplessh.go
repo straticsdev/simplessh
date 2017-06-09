@@ -174,6 +174,16 @@ func (c *Client) FileExists(remote string) (bool, error) {
 	return true, nil
 }
 
+func (c *Client) Delete(remote string) error {
+	client, err := sftp.NewClient(c.SSHClient)
+	if err != nil {
+		return err
+	}
+	defer client.Close()
+
+	return client.Remove(remote)
+}
+
 // Read a remote file and return the contents.
 func (c *Client) ReadAll(filepath string) ([]byte, error) {
 	sftp, err := c.SFTPClient()
