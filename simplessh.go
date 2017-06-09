@@ -160,6 +160,20 @@ func (c *Client) Upload(local, remote string) error {
 	return err
 }
 
+func (c *Client) FileExists(remote string) (bool, error) {
+	client, err := sftp.NewClient(c.SSHClient)
+	if err != nil {
+		return false, err
+	}
+	defer client.Close()
+
+	_, err = client.Stat(remote)
+	if err != nil {
+		return false, nil
+	}
+	return true, nil
+}
+
 // Read a remote file and return the contents.
 func (c *Client) ReadAll(filepath string) ([]byte, error) {
 	sftp, err := c.SFTPClient()
